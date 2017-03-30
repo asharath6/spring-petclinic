@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    stages{
+        stage('git clone or pull'){
+            steps{
+                git 'https://github.com/asharath6/spring-petclinic.git'
+            }
+        }
+        stage('maven build'){
+            steps{
+                sh 'mvn clean install'
+            }
+        }
+        stage('publish'){
+            steps{
+                archiveArtifacts 'target/springboot-petclinic-1.4.1.jar'
+                junit 'target/surefire-reports/*.xml'
+            }
+        }
+    
+    }
+}
